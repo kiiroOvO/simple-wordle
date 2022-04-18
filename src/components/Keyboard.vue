@@ -7,7 +7,8 @@ const props = defineProps<{
     error: string[];
     success: string[];
     warn: string[];
-  };
+  },
+  isDark:boolean;
 }>();
 
 const keyboard = ref<Keyboard | null>(null);
@@ -27,7 +28,6 @@ onMounted(() => {
     onKeyPress,
   });
 });
-
 watch(
   () => props.guessedLetters,
   (cur, prev) => {
@@ -46,16 +46,16 @@ watch(
 <style>
 div.error {
   @apply bg-red-400 !important;
-  @apply text-white;
+  @apply text-white !important;
 }
 
 div.success {
   @apply bg-green-600 !important;
-  @apply text-white;
+  @apply text-white !important;
 }
 
 div.warn:not(.success) {
   @apply bg-orange-300 !important;
-  @apply text-white;
+  @apply text-white !important;
 }
 </style>

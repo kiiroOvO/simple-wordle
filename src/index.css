@@ -1,3 +1,14 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html.dark {
+  background: #121212;
+}
+html.dark  .simple-keyboard{
+  background: gray !important;
+  color:#fff;
+}
+html.dark  .simple-keyboard .hg-button{
+  background: #000;
+}
