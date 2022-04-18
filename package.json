@@ -8,6 +8,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "simple-keyboard": "^3.4.84",
     "vue": "^3.2.25"
   },
   "devDependencies": {

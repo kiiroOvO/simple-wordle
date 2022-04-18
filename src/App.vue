@@ -1,21 +1,64 @@
 <script setup lang="ts">
-// This starter template is using Vue 3 <script setup> SFCs
-// Check out https://vuejs.org/api/sfc-script-setup.html#script-setup
-import HelloWorld from './components/HelloWorld.vue'
+import { onMounted, reactive } from "vue";
+import Keyboard from "./components/Keyboard.vue";
+import Row from "./components/Row.vue";
+const handleKeyPress = (key) => {
+  if (state.currentIndex >= 6) return;
+  const currentGuess = state.guesses[state.currentIndex];
+  if (key === "{enter}") {
+    if (currentGuess.length === 5) {
+      state.currentIndex++
+    }
+    for (let i = 0; i < currentGuess.length; i++) {
+      let c = currentGuess.charAt(i);
+      if (c === state.solution.charAt(i)) {
+        // 找到了
+        state.guessedLetters.success.push(c)
+      } else if (state.solution.indexOf(c) !== -1) {
+        state.guessedLetters.warn.push(c)
+      } else {
+        state.guessedLetters.error.push(c)
+
+      }
+    }
+  } else if (key === "{bksp}") {
+    state.guesses[state.currentIndex] = currentGuess.slice(0, -1);
+  } else if (currentGuess.length < 5) {
+    if (/[a-zA-Z]/.test(key)) {
+      state.guesses[state.currentIndex] += key
+    }
+  }
+};
+const state = reactive({
+  solution: "books",
+  guesses: ["", "", "", "", "", ""],
+  currentIndex: 0,
+  guessedLetters: {
+    error: [] as string[],
+    success: [] as string[],
+    warn: [] as string[]
+  }
+});
+onMounted(() => {
+  window.addEventListener("keyup", (e) => {
+    e.preventDefault();
+    let key =
+      e.key === "Enter"
+        ? "{enter}"
+        : e.key === "Backspace"
+          ? "{bksp}"
+          : e.key.toLocaleLowerCase();
+    handleKeyPress(key)
+  });
+});
 </script>
 
 <template>
-  <img alt="Vue logo" src="./assets/logo.png" />
-  <HelloWorld msg="Hello Vue 3 + TypeScript + Vite" />
+  <div class="flex h-screen flex-col max-w-lg mx-auto justify-evenly">
+    <div>
+      <Row v-for="(guess, i) in state.guesses" :key="i" :value="guess" :solution="state.solution"
+        :submitted="i < state.currentIndex"></Row>
+    </div>
+    <Keyboard @on-key-press="handleKeyPress" :guessedLetters="state.guessedLetters" />
+  </div>
 </template>
-
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
-</style>
