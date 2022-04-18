@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import { onMounted, reactive } from "vue";
+import { computed, onMounted, reactive } from "vue";
 import Keyboard from "./components/Keyboard.vue";
 import Row from "./components/Row.vue";
+const isWin = computed(() => state.guesses[state.currentIndex - 1] === state.solution)
 const handleKeyPress = (key) => {
-  if (state.currentIndex >= 6) return;
+  if (state.currentIndex >= 6 || isWin.value) return;
   const currentGuess = state.guesses[state.currentIndex];
   if (key === "{enter}") {
     if (currentGuess.length === 5) {
@@ -31,7 +32,7 @@ const handleKeyPress = (key) => {
   }
 };
 const state = reactive({
-  solution: "books",
+  solution: "chill",
   guesses: ["", "", "", "", "", ""],
   currentIndex: 0,
   guessedLetters: {
@@ -62,6 +63,10 @@ onMounted(() => {
       <Row v-for="(guess, i) in state.guesses" :key="i" :value="guess" :solution="state.solution"
         :submitted="i < state.currentIndex"></Row>
     </div>
+    <div v-if="isWin" class="text-center">
+      You Win 🏆.
+    </div>
     <Keyboard @on-key-press="handleKeyPress" :guessedLetters="state.guessedLetters" />
+
   </div>
 </template>
