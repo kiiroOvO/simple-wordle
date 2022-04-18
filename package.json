@@ -1,5 +1,6 @@
 {
-  "name": "wordle",
+  "name": "simple-wordle",
+  "author": "Liam Huang",
   "private": true,
   "version": "0.0.0",
   "scripts": {

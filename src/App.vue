@@ -26,7 +26,7 @@ const handleKeyPress = (key) => {
   } else if (key === "{bksp}") {
     state.guesses[state.currentIndex] = currentGuess.slice(0, -1);
   } else if (currentGuess.length < 5) {
-    if (/[a-zA-Z]{1}/.test(key)) {
+    if (/[a-zA-Z]/.test(key)) {
       state.guesses[state.currentIndex] += key
     }
   }
