@@ -8,7 +8,7 @@ const props = defineProps<{
     success: string[];
     warn: string[];
   };
-}>()
+}>();
 
 const keyboard = ref<Keyboard | null>(null);
 const emits = defineEmits(["onKeyPress"]);
@@ -28,27 +28,22 @@ onMounted(() => {
   });
 });
 
-watch(() => props.guessedLetters, (cur, prev) => {
-  keyboard.value?.addButtonTheme(
-    cur.error.join(' '),
-    "error"
-  )
-  keyboard.value?.addButtonTheme(
-    cur.success.join(' '),
-    "success"
-  )
-  keyboard.value?.addButtonTheme(
-    cur.warn.join(' '),
-    "warn"
-  )
-}, { deep: true })
+watch(
+  () => props.guessedLetters,
+  (cur, prev) => {
+    keyboard.value?.addButtonTheme(cur.error.join(" "), "error");
+    keyboard.value?.addButtonTheme(cur.success.join(" "), "success");
+    keyboard.value?.addButtonTheme(cur.warn.join(" "), "warn");
+  },
+  { deep: true }
+);
 </script>
 
 <template>
   <div class="simple-keyboard"></div>
 </template>
 
-<style >
+<style>
 div.error {
   @apply bg-red-400 !important;
   @apply text-white;

@@ -15,6 +15,7 @@ const handleKeyPress = (key) => {
         // 找到了
         state.guessedLetters.success.push(c)
       } else if (state.solution.indexOf(c) !== -1) {
+        //位置错误
         state.guessedLetters.warn.push(c)
       } else {
         state.guessedLetters.error.push(c)
@@ -24,7 +25,7 @@ const handleKeyPress = (key) => {
   } else if (key === "{bksp}") {
     state.guesses[state.currentIndex] = currentGuess.slice(0, -1);
   } else if (currentGuess.length < 5) {
-    if (/[a-zA-Z]/.test(key)) {
+    if (/[a-zA-Z]{1}/.test(key)) {
       state.guesses[state.currentIndex] += key
     }
   }
@@ -40,7 +41,9 @@ const state = reactive({
   }
 });
 onMounted(() => {
-  window.addEventListener("keyup", (e) => {
+  window.addEventListener("keydown", (e) => {
+    if (e.metaKey || e.shiftKey || e.ctrlKey) return
+
     e.preventDefault();
     let key =
       e.key === "Enter"
