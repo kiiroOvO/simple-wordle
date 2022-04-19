@@ -66,7 +66,7 @@ onMounted(() => {
 <template>
   <main class="text-black dark:text-white">
     <div class="flex h-screen flex-col max-w-lg mx-auto justify-evenly">
-      <div class="self-end mx-2 my-1">
+      <div class="self-end mx-4 my-1">
         <Toggle :isDark="isDark" :toggleDark="toggleDark"></Toggle>
       </div>
       <div>
@@ -78,7 +78,7 @@ onMounted(() => {
           :submitted="i < state.currentIndex"
         ></Row>
       </div>
-      <div v-if="isWin" class="text-center">You Win 🏆.</div>
+      <div v-if="isWin" class="text-center">You Won 🏆.</div>
       <Keyboard
         @on-key-press="handleKeyPress"
         :guessedLetters="state.guessedLetters"
